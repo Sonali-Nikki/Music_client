@@ -1,44 +1,42 @@
-import api from "./axios";
-import { BASE_URL } from "./api";
+import api from "./axios.js";
+import { BASE_URL } from "./api.JS";
 
 
 // helper to get token
 const getToken = () => localStorage.getItem("token");
 
+
+//GET all playlists
 export const getPlaylists = async () => {
-  return axios.get(`${BASE_URL}/playlists`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  const res = await api.get("/playlists");
+  return res.data;
 };
 
+// CREATE playlist
 export const createPlaylist = async (name) => {
-  return axios.post(
-    `${BASE_URL}/playlists`,
-    { name },
-    {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    }
-  );
+  const res = await api.post("/playlists", { name });
+  return res.data;
 };
 
-export const getPlaylistById = (id) =>
-  api.get(`/playlists/${id}`);
+// GET playlist by ID
+export const getPlaylistById = async (id) => {
+  const res = await api.get(`/playlists/${id}`);
+  return res.data;
+};
 
+// ADD track to playlist
 export const addTrackToPlaylist = async (playlistId, trackId) => {
-  return axios.post(
-    `${BASE_URL}/playlists/${playlistId}/tracks`,
-    { trackId },
-    {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    }
+  const res = await api.post(
+    `/playlists/${playlistId}/tracks`,
+    { trackId }
   );
+  return res.data;
 };
 
-export const removeTrackFromPlaylist = (playlistId, trackId) =>
-  api.delete(`/playlists/${playlistId}/tracks/${trackId}`);
+// REMOVE track from playlist
+export const removeTrackFromPlaylist = async (playlistId, trackId) => {
+  const res = await api.delete(
+    `/playlists/${playlistId}/tracks/${trackId}`
+  );
+  return res.data;
+};
