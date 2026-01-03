@@ -6,9 +6,16 @@ export default function Playlists() {
   const [playlists, setPlaylists] = useState([]);
   const [name, setName] = useState("");
 
+  const token = localStorage.getItem("token");
+
   const loadPlaylists = async () => {
-    const res = await getPlaylists();
-    setPlaylists(res.data);
+    try {
+      const res = await getPlaylists();
+      setPlaylists(res.data);
+    } catch (err) {
+      console.error(err);
+      alert("Please login again");
+    }
   };
 
   const handleCreate = async () => {
@@ -19,8 +26,16 @@ export default function Playlists() {
   };
 
   useEffect(() => {
-    loadPlaylists();
+    if (token) loadPlaylists();
   }, []);
+
+  if (!token) {
+    return (
+      <p className="p-6 text-white">
+        Please login to view playlists
+      </p>
+    );
+  }
 
   return (
     <div className="p-6">
