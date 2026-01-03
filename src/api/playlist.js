@@ -1,5 +1,4 @@
 import api from "./axios.js";
-import { BASE_URL } from "./api.JS";
 
 
 // helper to get token
